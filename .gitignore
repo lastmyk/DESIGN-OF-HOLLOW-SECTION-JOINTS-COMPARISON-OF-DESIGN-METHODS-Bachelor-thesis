@@ -1,0 +1,13 @@
+.idea/
+__pycache__/
+venv/
+db_credentials/
+python/
+*.ideaCon.Archiv
+*.ideaCon.backup
+csv_output/
+plots/
+calculated/
+test.py
+truss/
+translation/

@@ -1,0 +1,82 @@
+profiles:
+  chord:
+    type: "CHS"
+  connected_member:
+    type: "CHS"
+
+connection_type: "CHS_T_and_Y"
+code_standard: 'Fpr_EN'
+validity_conditions:
+  - d_1 / d_0 >= 0.2
+  - d_1 / d_0 < 1.0
+  - d_0 / t_0 <= 50
+  - d_1 / t_1 <= 50
+  - t_1 < 0.025
+  - t_0 < 0.025
+
+
+idea_conn_path: "idea_model/chs_y.ideaCon"
+
+equations:
+  q_f_min: "0.4"
+  gamma_m_5: "1.00"
+
+  betta: d_1/d_0
+  gamma: d_0 / (2 * t_0)
+
+  theta_r: (thetta_1 * math.pi / 180.0)
+
+  vert_reacion: N_cbfem * math.sin(theta_r) / 2
+
+  d_0_end_moment: > 
+    (vert_reacion * d_0_end_length) if n_dir == '-' else
+    (-1 * vert_reacion * d_0_end_length)
+
+  l_increment: >
+    (((d_0 *0.5) / math.tan(theta_r)) + ((d_1 *0.5) / math.sin(theta_r))) if thetta_1 != 90 else
+    (((d_1 * 0.5) / math.sin(theta_r)))
+  
+
+  m_increment: (l_increment / d_0_end_length) * d_0_end_moment
+
+  M_chord_real: M_chord + m_increment
+
+
+  np_el: (N_chord/A_0 + M_chord_real/W_0)/ fy_0
+  np_pl: (N_chord/A_0 + M_chord_real/W_0_pl)/ fy_0
+  np: >
+    np_el if csc_chord > 2  else
+    np_pl
+
+  c_1_tension: "0.2"
+
+  c_1_compression: 0.45 - 0.25 * betta
+  c_1 : where(np < 0 , c_1_compression, c_1_tension)
+  q_f_calc : ((1 - abs(np)) ** c_1)
+
+  q_f : where(q_f_min > q_f_calc, q_f_min, q_f_calc)
+
+  kp : q_f
+
+  c_f: >
+    1 if fy_0 <= 355e6 else
+    0.9 if 355e6 < fy_0 <= 460e6 else
+    0.86 if 460e6 < fy_0 <= 550e6 else
+    0.8 if 550e6 < fy_0 <= 700e6 else 0
+
+  kp_my_sql_key: q_f
+
+  Nrd_shear: (c_f * (1 / math.sqrt(3)) * fy_0 * t_0 * d_1 * math.pi * ((1 +  math.sin(theta_r) ) / (2 * ( math.sin(theta_r)**2 ))))
+
+  Nrd_chord_plastificaction: ((((c_f * fy_0 * (t_0**2) / math.sin((theta_r))) * (2.6 + 17.7 * (betta ** 2))) * (gamma ** (0.2)) * q_f) )
+
+  Nrd_shear_cond: >
+    Nrd_shear if d_1 < (d_0 - (2 * t_0)) else Nrd_chord_plastificaction
+
+  Nrd: min(Nrd_shear_cond, Nrd_chord_plastificaction)
+
+additional_exclusion:
+  - t_1 < 0.025
+  - t_0 < 0.025
+  - csc_conn_memb < 3
+  - (~((csc_chord >= 3) & (np < 0)))

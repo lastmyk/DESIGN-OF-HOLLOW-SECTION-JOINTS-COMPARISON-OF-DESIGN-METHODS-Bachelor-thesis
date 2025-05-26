@@ -1,0 +1,51 @@
+profiles:
+  chord:
+    type: "CHS"
+  connected_member:
+    type: "CHS"
+
+connection_type: "CHS_T_and_Y"
+code_standard: 'EN'
+
+validity_conditions:
+  - connected_m_d / chord_d >= 0.2
+  - connected_m_d / chord_d < 1.0
+  - chord_d / connected_m_t >= 10
+  - chord_d / connected_m_t < 50
+  - connected_m_t < 0.025
+  - chord_t < 0.025
+
+
+idea_conn_path: "idea_model/chs_y.ideaCon"
+
+equations:
+  gamma_m_5: float(1.00)
+  betta: d_1/d_0
+  gamma: d_0 / (2 * t_0)
+  theta_r: (thetta_1 * math.pi / 180.0)
+  np: (N_chord/A_0 + M_chord/W_0)/ fy_0
+
+  c_f: >
+    1 if fy_0 < 355e6 else 0.9
+
+  kp: >
+    1 if np > 0 else
+    (1 - (0.3 * abs(np) * (1 + abs(np))))
+  Nrd_chord_plastificaction: ((( (gamma ** 0.2) * kp * fy_0 * (t_0 ** 2) ) / math.sin((theta_r))) * (2.8 + 14.2 * (betta ** 2) ))  * c_f
+  kp_my_sql_key: kp
+
+  Nrd_shear: ((1 / math.sqrt(3)) * fy_0 * t_0 * d_1 * math.pi * ((1 +  math.sin(theta_r) ) / (2 * ( math.sin(theta_r)**2 ))))  * c_f
+
+  Nrd_shear_cond: >
+    Nrd_shear if d_1 < (d_0 - (2 * t_0)) else Nrd_chord_plastificaction
+
+  Nrd: min(Nrd_shear_cond, Nrd_chord_plastificaction)
+
+
+additional_exclusion:
+  - csc_conn_memb < 3
+  - csc_chord < 3
+  - t_1 < 0.025
+  - t_0 < 0.025
+  - t_1 > 0.0025
+  - t_0 > 0.0025

@@ -1,0 +1,56 @@
+profiles:
+  chord:
+    type: "CHS"
+  connected_member:
+    type: "CHS"
+
+connection_type: "CHS_K"
+code_standard: 'AISC'
+
+
+validity_conditions:
+  - connected_m_d / chord_d >= 0.2
+  - connected_m_d / chord_d < 1.0
+  - chord_d / chord_t <= 50
+  - connected_m_d / connected_m_t <= 50
+  - connected_m_t < 0.025
+  - chord_t < 0.025
+
+
+
+idea_conn_path: "idea_model/chs_k.ideaCon"
+
+equations:
+  betta: d_1/d_0
+  l_end: d_0 * (1.25 - betta/2)
+  theta_r: (thetta_1 * math.pi / 180.0)
+  gamma: d_0 / (2 * t_0)
+  U: (N_chord/A_0 + M_chord/W_0)/ fy_0
+
+  q_f : >
+    1 if U > 0 else
+    (1 - (0.3*abs(U)) * (1 + abs(U)))
+
+  kp_my_sql_key : q_f
+  fi: "0.9"
+  g_2: 1 / (math.tan(thetta_1 * math.pi / 180.0)) * d_0
+  d_s: 1 / (math.sin(thetta_1 * math.pi / 180.0)) * d_1
+  g: g_2 - d_s
+
+  q_g: gamma**0.2 * (1 + (0.024 * (gamma ** 1.2)) / (1 + math.exp( (0.5 * g / t_0) - 1.33) ) )
+
+  Nrd_shear: (0.6 * fy_0 * t_0 * d_1 * math.pi * ((1 +  math.sin(theta_r) ) / (2 * ( math.sin(theta_r)**2 ))))
+
+  Nrd_chord_plastificaction: (fy_0 * (t_0**2)  * (2.0 + (11.33 * betta)) * q_f * q_g) / math.sin(theta_r)
+
+  Nrd_shear_cond: >
+    Nrd_shear if d_1 < (d_0 - (2 * t_0)) else Nrd_chord_plastificaction
+
+  Nrd: min(Nrd_shear_cond, Nrd_chord_plastificaction)
+
+additional_exclusion:
+  - g >= (t_1 * 2)
+  - fy_0  <= 360e6
+  - t_1 < 0.025
+  - t_0 < 0.025
+  - d_1 / t_1 <= (210e9 / fy_0)

@@ -1,0 +1,72 @@
+profiles:
+  chord:
+    type: "CHS"
+  connected_member:
+    type: "CHS"
+
+connection_type: "CHS_K"
+code_standard: 'Fpr_EN'
+validity_conditions:
+  - connected_m_d / chord_d >= 0.2
+  - connected_m_d / chord_d < 1.0
+  - chord_d / chord_t <= 50
+  - connected_m_d / connected_m_t <= 50
+  - connected_m_t < 0.025
+  - chord_t < 0.025
+
+
+idea_conn_path: "idea_model/chs_k.ideaCon"
+
+equations:
+  q_f_min: "0.4"
+  gamma_m_5: "1.00"
+  theta_r: (thetta_1 * math.pi / 180.0)
+
+  betta: d_1/d_0
+  gamma: d_0 / (2 * t_0)
+  np_el: (N_chord/A_0 + M_chord/W_0)/ fy_0
+  np_pl: (N_chord/A_0 + M_chord/W_0_pl)/ fy_0
+  np: >
+    np_el if csc_chord > 2  else
+    np_pl
+
+  g_2: 1 / (math.tan(theta_r)) * d_0
+  d_s: 1 / (math.sin(theta_r)) * d_1
+  g: g_2 - d_s
+
+  c_1_tension: "0.2"
+
+  c_1_compression: '0.25'
+  c_1 : where(np < 0 , c_1_compression, c_1_tension)
+  q_f_calc : ((1 - abs(np)) ** c_1)
+
+  q_f : where(q_f_min > q_f_calc, q_f_min, q_f_calc)
+
+  kp : q_f
+
+  c_f: >
+    1 if fy_0 <= 355e6 else
+    0.9 if 355e6 < fy_0 <= 460e6 else
+    0.86 if 460e6 < fy_0 <= 550e6 else
+    0.8 if 550e6 < fy_0 <= 700e6 else 0
+
+  kp_my_sql_key: q_f
+
+  Nrd_shear_punching: (c_f * (1 / math.sqrt(3)) * fy_0 * t_0 * d_1 * math.pi * ((1 +  math.sin(theta_r) ) / (2 * ( math.sin(theta_r)**2 ))))
+
+  Nrd_chord_plastificaction: (c_f*(fy_0 * (t_0**2) / (math.sin((theta_r))) * ((1.65 + 13.2 * (betta**1.6)) * (gamma ** 0.3) * (1 + (1)/(1.2 + (abs(g)/t_0)**0.8)) *q_f)))
+
+  Nrd_shear_cond: >
+    Nrd_shear_punching if d_1 < (d_0 - (2 * t_0)) else (round(Nrd_chord_plastificaction,0))
+
+  Nrd: min(Nrd_shear_cond, Nrd_chord_plastificaction)
+#overlaping isn't allowed here
+additional_exclusion:
+  - g >= (t_1 * 2)   #for Fpr EN add. cond. for gap check max(t1*2, t2*2), but since t1==t2 its doesn't make sense
+  - t_1 < 0.025
+  - t_0 < 0.025
+  - csc_conn_memb < 3
+  - (~((csc_chord >= 3) & (np < 0)))
+
+
+

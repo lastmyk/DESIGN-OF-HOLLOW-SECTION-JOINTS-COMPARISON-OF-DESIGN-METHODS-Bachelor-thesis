@@ -1,0 +1,9 @@
+#python version is 3.12
+numpy
+numexpr
+PyYAML
+mysql-connector-python
+ideastatica-connection-api==24.1.0.3004
+matplotlib
+pandas == 2.2.3
+openpyxl == 3.1.5
