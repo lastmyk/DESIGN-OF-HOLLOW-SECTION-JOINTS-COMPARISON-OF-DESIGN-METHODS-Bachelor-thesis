@@ -1,9 +1,9 @@
 import os
 import time
 
-from py.e.eval_linear_regresion import linear_regression_refactor
-from py.e.eval_res_to_diff_code import idea_res_to_code_refactor
-from py.u.utils_data_plotting import get_root_dir_path
+from src.e.eval_linear_regresion import linear_regression_refactor
+from src.e.eval_res_to_diff_code import idea_res_to_code_refactor
+from src.u.utils_data_plotting import get_root_dir_path
 from pathlib import Path
 
 

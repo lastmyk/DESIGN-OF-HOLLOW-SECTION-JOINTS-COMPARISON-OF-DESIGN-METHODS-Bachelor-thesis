@@ -8,9 +8,9 @@ import json
 import numexpr as ne
 from itertools import product
 
-from py.calc.base_classes import BaseGeometry, RectangleHollow, ConfigConn, ConnSetup, CodeRes, MainCalculationInfo
-from py.calc.gen_sample_helper.code_check import get_css_class, get_steel_str
-from py.calc.gen_sample_helper.csv_fetching import get_cross_sections
+from src.calc.base_classes import BaseGeometry, RectangleHollow, ConfigConn, ConnSetup, CodeRes, MainCalculationInfo
+from src.calc.gen_sample_helper.code_check import get_css_class, get_steel_str
+from src.calc.gen_sample_helper.csv_fetching import get_cross_sections
 
 
 

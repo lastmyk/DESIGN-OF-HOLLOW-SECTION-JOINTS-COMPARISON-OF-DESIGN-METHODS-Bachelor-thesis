@@ -9,11 +9,11 @@ from matplotlib.ticker import MultipleLocator
 from pathlib import Path
 from typing import  Union
 
-from py.calc.base_classes import MainCalculationInfo
-from py.e.eval_res_to_diff_code import duplicates_filtering
-from py.u.utilis_plastic_strain_investigation import plot_comparison_with_plastic_strains, \
+from src.calc.base_classes import MainCalculationInfo
+from src.e.eval_res_to_diff_code import duplicates_filtering
+from src.u.utilis_plastic_strain_investigation import plot_comparison_with_plastic_strains, \
     plot_analyzes_percentage_histogram
-from py.u.utils_data_plotting import get_root_dir_path, params_for_plot_pdf_save
+from src.u.utils_data_plotting import get_root_dir_path, params_for_plot_pdf_save
 import re
 
 

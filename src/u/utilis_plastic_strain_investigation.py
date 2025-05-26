@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
-from py.calc.base_classes import MainCalculationInfo
+from src.calc.base_classes import MainCalculationInfo
 
 
 def plot_comparison_with_plastic_strains(strange_list: List[MainCalculationInfo]):

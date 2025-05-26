@@ -1,6 +1,6 @@
-from py.e.eval_linear_regresion import get_plot_prop, std_dev_and_residuals
-from py.u.utils_data_plotting import dict_plotter, title_generator_refactor, get_root_dir_path
-from py.calc.generate_samples import sample_generation
+from src.e.eval_linear_regresion import get_plot_prop, std_dev_and_residuals
+from src.u.utils_data_plotting import dict_plotter, title_generator_refactor, get_root_dir_path
+from src.calc.generate_samples import sample_generation
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import MultipleLocator

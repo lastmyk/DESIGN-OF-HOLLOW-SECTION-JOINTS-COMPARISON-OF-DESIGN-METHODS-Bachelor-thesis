@@ -2,10 +2,10 @@ import math
 from typing import Any
 from ideastatica_connection_api import ConMprlCrossSection, ConMember
 
-import py.calc.gen_sample_helper.csv_fetching
+import src.calc.gen_sample_helper.csv_fetching
 from .utilis_data_import import dict_for_db_recoding, add_to_db_single
-from py.calc.generate_samples import yaml_calculator
-from py.calc.base_classes import IdeaLoad, MainCalculationInfo
+from src.calc.generate_samples import yaml_calculator
+from src.calc.base_classes import IdeaLoad, MainCalculationInfo
 
 
 def get_result(raw_results, name: str) -> float:
@@ -371,4 +371,4 @@ def get_plate_strain(actual_division_of_the_chs:int, chs_divis_conn_member:int, 
 
 if __name__ == '__main__':
 
-    print('script utilis_idea_calculator.py is running')
+    print('script utilis_idea_calculator.src is running')

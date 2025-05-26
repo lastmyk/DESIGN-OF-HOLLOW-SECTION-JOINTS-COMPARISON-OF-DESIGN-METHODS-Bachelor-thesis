@@ -5,11 +5,11 @@ import ideastatica_connection_api
 import ideastatica_connection_api.ideastatica_client as idea_client
 import os
 import json
-from py.u.utilis_idea_calculator import get_result, get_loading, exclude_from_eval, recalculate_kp, set_css_id, \
+from src.u.utilis_idea_calculator import get_result, get_loading, exclude_from_eval, recalculate_kp, set_css_id, \
     assign_new_load_effects, assign_new_load_chord, assign_new_load_connected_m, get_plate_strain
-from py.u.utilis_data_import import get_data_from_DB, valid_recording
-from py.u.utils_data_plotting import get_root_dir_path
-from py.calc.base_classes import IdeaRes, MainCalculationInfo
+from src.u.utilis_data_import import get_data_from_DB, valid_recording
+from src.u.utils_data_plotting import get_root_dir_path
+from src.calc.base_classes import IdeaRes, MainCalculationInfo
 from idea_load_generator import run_load_generator
 import math
 import time
@@ -29,7 +29,7 @@ def idea_calculator(prepared_for_idea:MainCalculationInfo, db_writing:int) -> Ma
 
 
     # Defining the host is optional and defaults to http://localhost
-    # See configuration.py for a list of all supported configuration parameters.
+    # See configuration.src for a list of all supported configuration parameters.
     configuration = ideastatica_connection_api.Configuration(
         host=baseUrl
     )

@@ -1,6 +1,6 @@
-from py.e.eval_res_to_diff_code import dict_generator, calc_res_from_calculated
-from py.u.utils_data_plotting import get_root_dir_path
-from py.calc.base_classes import MainCalculationInfo
+from src.e.eval_res_to_diff_code import dict_generator, calc_res_from_calculated
+from src.u.utils_data_plotting import get_root_dir_path
+from src.calc.base_classes import MainCalculationInfo
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np

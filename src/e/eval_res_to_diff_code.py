@@ -1,9 +1,9 @@
-from py.u.utilis_data_import import get_data_from_DB
+from src.u.utilis_data_import import get_data_from_DB
 import json
 import os
-from py.u.utils_data_plotting import dict_plotter, title_generator_refactor
-from py.calc.generate_samples import code_calc, additional_excluding
-from py.calc.base_classes import BaseGeometry, RectangleHollow, ConfigConn, ConnSetup, IdeaRes, MainCalculationInfo, \
+from src.u.utils_data_plotting import dict_plotter, title_generator_refactor
+from src.calc.generate_samples import code_calc, additional_excluding
+from src.calc.base_classes import BaseGeometry, RectangleHollow, ConfigConn, ConnSetup, IdeaRes, MainCalculationInfo, \
     IdeaLoadingInfo
 from typing import Any
 import yaml

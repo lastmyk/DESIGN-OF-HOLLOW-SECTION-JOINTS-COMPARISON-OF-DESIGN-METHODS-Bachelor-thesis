@@ -1,6 +1,6 @@
 import math
 from generate_samples import sample_generation
-from py.calc.base_classes import IdeaLoad, IdeaLoadingInfo, MainCalculationInfo
+from src.calc.base_classes import IdeaLoad, IdeaLoadingInfo, MainCalculationInfo
 
 
 def assign_idea_load_chs_t_and_y(hand_calc_results:list[MainCalculationInfo]) -> None:

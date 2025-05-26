@@ -497,7 +497,7 @@ def title_generator_refactor(
     return code_to_compare, temparature_label
 
 def main():
-    print('script utils_data_plotting.py is running ')
+    print('script utils_data_plotting.src is running ')
 
 
 if __name__ == '__main__':

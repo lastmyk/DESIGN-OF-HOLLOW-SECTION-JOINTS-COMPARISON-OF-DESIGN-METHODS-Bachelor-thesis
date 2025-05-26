@@ -1,7 +1,7 @@
 import csv
 from typing import Union
 
-from py.calc.base_classes import BaseGeometry, RectangleHollow
+from src.calc.base_classes import BaseGeometry, RectangleHollow
 
 
 def get_cs_params_csv(file_path: str, cs_type:str) -> list[Union[BaseGeometry, RectangleHollow]]:

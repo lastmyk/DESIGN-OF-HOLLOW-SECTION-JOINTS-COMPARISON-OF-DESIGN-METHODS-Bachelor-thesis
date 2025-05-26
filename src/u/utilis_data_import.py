@@ -9,7 +9,7 @@ from mysql.connector import pooling
 from .utils_data_plotting import get_root_dir_path
 from pathlib import Path
 
-from py.calc.base_classes import MainCalculationInfo
+from src.calc.base_classes import MainCalculationInfo
 
 
 # Function to get the current time in MySQL format
@@ -314,7 +314,7 @@ def valid_recording(calculation:MainCalculationInfo, db_writing:int, res_validit
     return
 
 def main():
-    print('script is utilis_data_import.py is running')
+    print('script is utilis_data_import.src is running')
 
 if __name__ == '__main__':
     main()

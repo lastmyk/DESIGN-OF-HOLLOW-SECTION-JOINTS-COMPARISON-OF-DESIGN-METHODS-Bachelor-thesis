@@ -1,6 +1,6 @@
 from typing import Union
 
-from py.calc.base_classes import BaseGeometry, RectangleHollow
+from src.calc.base_classes import BaseGeometry, RectangleHollow
 
 
 def get_css_class(mat_sample:Union[BaseGeometry, RectangleHollow], code_standard:str, cs_type:str, m_el_perc:float, n_perc:float) -> int:
